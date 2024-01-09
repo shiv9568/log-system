@@ -7,8 +7,12 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 
-
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://log-system.vercel.app/",
+    credentials: true,
+  })
+);
 
 
 const SECRET = "YOUR_HIDDEN_KEY";
