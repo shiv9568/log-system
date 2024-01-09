@@ -14,21 +14,21 @@ app.use(
   })
 );
 
+app.options("*", cors());
 
 const SECRET = "YOUR_HIDDEN_KEY";
 mongoose.connect(
   "mongodb+srv://shivcollage9568:rqSQ34CEa70uXrWe@clusterbhatia.26ks8l4.mongodb.net/LOGINAPP"
 );
 
-
 const LoginSchema = new mongoose.Schema({
-    username:String,
-    password:String
-})
-const SignupSchema = new mongoose.Schema({
-  name:String,
   username: String,
-  password: String
+  password: String,
+});
+const SignupSchema = new mongoose.Schema({
+  name: String,
+  username: String,
+  password: String,
 });
 const Login = mongoose.model("Login", LoginSchema);
 const Signup = mongoose.model("Signup", SignupSchema);
@@ -48,19 +48,18 @@ const Signup = mongoose.model("Signup", SignupSchema);
 //     res.sendStatus(401);
 //   }
 // };
-app.post('/login',async (req,res)=>{
-    const {username,password} = req.body;
-    console.log("Receve Data is",username,password);
-    const admin = await Signup.findOne({username,password});
-    if(admin)
-    {
-        res.status(200).json({message:"welcome ji"});
-    }
-    else
-    {
-        res.status(404).json({message:"Admin Not Present Please First do Signup"});
-    }
-})
+app.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+  console.log("Receve Data is", username, password);
+  const admin = await Signup.findOne({ username, password });
+  if (admin) {
+    res.status(200).json({ message: "welcome ji" });
+  } else {
+    res
+      .status(404)
+      .json({ message: "Admin Not Present Please First do Signup" });
+  }
+});
 app.post("/signup", async (req, res) => {
   const { name, username, password } = req.body;
   console.log("Received data:", name, username, password);
@@ -74,7 +73,6 @@ app.post("/signup", async (req, res) => {
     const newUser = new Signup({ name, username, password });
     await newUser.save();
 
-    
     const token = jwt.sign({ username, role: "user" }, SECRET, {
       expiresIn: "1h",
     });
@@ -83,12 +81,7 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-
-
-
-
-function started()
-{
-    console.log(`server started at ${port}`);
+function started() {
+  console.log(`server started at ${port}`);
 }
 app.listen(port, started);
