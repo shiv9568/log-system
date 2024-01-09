@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 
 app.use(
   cors({
-    origin: "https://log-system.vercel.app/",
+    origin: "https://log-system.vercel.app",
     credentials: true,
   })
 );
